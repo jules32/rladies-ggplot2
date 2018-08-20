@@ -25,11 +25,65 @@ library(tidyverse) # install.packages('tidyverse')
 np_visit <- read_csv("data/np_visit.csv")
 ```
 
-## Demo plot
+
+## Exploring and wrangling data, pre-plotting
+
+To get a better sense of the dataset and what we may want to plot, we can do some preliminary wrangling/exploration.
+
+```{r}
+## Which parks, and how many parks, are in the dataset?
+parks <- np_visit %>% 
+  select(park_name) %>% 
+  distinct()
+
+## When was each park founded? Which are the oldest vs newest?
+earliest_yr <- np_visit %>% 
+  select(park_name, year) %>% 
+  group_by(park_name) %>% 
+  slice(which.min(year)) %>%
+  arrange(year) %>% 
+  ungroup()
+
+head(earliest_yr)
+tail(earliest_yr)
+
+## How many parks in each state? Each region?
+per_state <- np_visit %>% 
+  group_by(state) %>% 
+  mutate(n_parks = n()) %>% 
+  select(state, n_parks) %>% 
+  distinct() %>% 
+  arrange(desc(n_parks)) %>% 
+  ungroup()
+
+head(per_state)
+tail(per_state)
+
+per_rgn <- np_visit %>% 
+  group_by(region) %>% 
+  mutate(n_parks = n()) %>% 
+  select(region, n_parks) %>% 
+  distinct() %>% 
+  arrange(desc(n_parks)) %>% 
+  ungroup()
+```
+
+
+## Demo plots
 
 
 ```{r}
+ggplot(data = earliest_yr, aes(year)) + geom_histogram(binwidth = 1) # single year
+ggplot(data = earliest_yr, aes(year)) + geom_histogram(binwidth = 10) # decade
 
+rgn_visits <- np_visit %>% 
+  group_by(region, year) %>% 
+  mutate(rgn_visit = sum(as.numeric(visitors))/10^4) %>% 
+  ungroup() %>% 
+  filter(rgn_visit > 0)
+
+ggplot(data = rgn_visits, aes(x = year, y = rgn_visit, colour = region)) + 
+  geom_line()
 ```
 
 ## Your turn!
@@ -38,3 +92,4 @@ Here are some questions to get you started:
 
 1. Can you create a plot that shows the trend in visitation to your favorite national park over time
 2. How many national parks were established in each year in the US between XXXX and XXXX
+3. 
