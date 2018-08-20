@@ -14,6 +14,8 @@ knitr::opts_chunk$set(echo = TRUE)
 We'll be mob programming in small teams to learn ggplot2. We'll be exploring data on visits to US National Parks (sourced from the National Park Service at https://irma.nps.gov/Stats/SSRSReports).  
 
 
+The presentation is [here]().
+
 
 ## Load libraries and data 
 
@@ -25,11 +27,61 @@ library(tidyverse) # install.packages('tidyverse')
 np_visit <- read_csv("data/np_visit.csv")
 ```
 
+## Demo code
 
-## Exploring and wrangling data, pre-plotting
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+
+np_visit <- read_csv("data/np_visit.csv")
+
+dino_nm <- np_visit %>% 
+  filter(park_name == "Dinosaur National Monument")
+  
+ggplot(data = dino_nm, aes(x = year, y = visitors)) +
+  geom_point()
+```
+
+
+## Exploring and wrangling data, pre-plotting // renamed
 
 To get a better sense of the dataset and what we may want to plot, we can do some preliminary wrangling/exploration.
 
+Here are some common functions: 
+
+- head
+- tail
+- summary()
+- View()
+
+Some geoms: 
+-
+
+
+## Plotting questions
+
+### How many parks in each region?
+
+Add text: The "region" varible defines the US by region. Use a bargraph to show how many parks are in each region. 
+
+Hint: `geom_bar`
+
+```{r}
+## wrangling code:
+per_state <- np_visit %>% 
+  group_by(state) %>% 
+  mutate(n_parks = n()) %>% 
+  select(state, n_parks) %>% 
+  distinct() %>% 
+  arrange(desc(n_parks)) %>% 
+  ungroup()
+
+## plotting code:
+
+```
+
+
+
+These are some questions you can answer as you figure out what to plot
 
 ```{r}
 
@@ -37,7 +89,7 @@ To get a better sense of the dataset and what we may want to plot, we can do som
 head(np_visit)
 summary(np_visit)
 
-## How many years of data  does this dataset have? hint: summary()
+## How many years of data does this dataset have? hint: summary()
 
 ## Which parks, and how many parks, are in the dataset?
 parks <- np_visit %>% 
@@ -55,14 +107,7 @@ earliest_yr <- np_visit %>%
 head(earliest_yr)
 tail(earliest_yr)
 
-## How many parks in each state? Each region?
-per_state <- np_visit %>% 
-  group_by(state) %>% 
-  mutate(n_parks = n()) %>% 
-  select(state, n_parks) %>% 
-  distinct() %>% 
-  arrange(desc(n_parks)) %>% 
-  ungroup()
+
 
 head(per_state)
 tail(per_state)
@@ -79,6 +124,8 @@ per_rgn <- np_visit %>%
 most_visit <- np_visit %>% 
   arrange(desc(visitors))
 
+
+
 ## Which was the most visited national park in the US in 2016?
 most_visit_2016 <- np_visit %>% 
   filter(year == 2016) %>% 
@@ -89,6 +136,15 @@ tail(most_visit_2016)
 
 
 ```
+
+##
+
+- How many years of data does this dataset have? hint: summary()
+
+- Which parks, and how many parks, are in the dataset?
+
+
+## Challenge questions
 
 
 ## Demo plots
