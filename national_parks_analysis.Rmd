@@ -53,11 +53,76 @@ Here are some common functions:
 - summary()
 - View()
 
+Helpful functions from `dplyr`
+
+Also part of the `tidyverse`
+
+- filter
+- select
+- %>%
+
+
 Some geoms: 
 -
 
 
-## Plotting questions
+## Plotting tasks
+
+Resources: 
+
+- [cheatsheet]()
+- [tidyverse/ggplot]()
+
+### Plot California National Parks by color
+
+Try this as both a `geom_point` and a `geom_line`
+
+Hint: `geom_point(aes(color = park_name))`
+```{r}
+## wrangling code:
+np_ca <- np_visit %>% 
+  filter(state == "CA" & type == "National Park") %>% 
+  arrange(park_name, year)
+
+## ggplot code:
+```
+
+
+### Visualize the average visitation to National Parks in California
+
+Keep in mind that the type of graph you’re trying to create needs to be compatible with the data you’re telling it to use.
+
+Hint: `geom_boxplot`  
+```{r}
+## wrangling code:
+np_ca <- np_visit %>% # introduce pipe operator?
+  filter(state == "CA" & type == "National Park") %>% 
+  arrange(park_name, year)
+
+## plotting code:
+```
+  
+Bonus: try `geom_jitter`!
+
+### Plot visitor counts from 2016 for all of the National Parks and Monuments
+
+Hint: `geom_bar`
+```{r}
+visit_16 <- np_visit %>% 
+  filter(year == 2016) %>% 
+  filter(type == "National Park" | 
+           type == "National Monument")
+```
+
+#### Bonus
+
+Now color them by region: 
+
+try: `fill = region`
+
+And control whether they are stacked (default) or not:
+
+`position = "dodge"`
 
 ### How many parks in each region?
 
@@ -79,63 +144,26 @@ per_state <- np_visit %>%
 
 ```
 
+### Plot all California National Parks
 
+Considering our CA National Parks Visitation, what if we wanted each National Park to exist in its own graphics space? Would we need to create a new graph for each? No - we can use facet_wrap to split up the graph by a variable that we pick (here, park_name).
 
-These are some questions you can answer as you figure out what to plot
+Hint: `facet_wrap(~park_name)`
 
 ```{r}
+## wrangling:
+np_ca <- np_visit %>% # introduce pipe operator?
+  filter(state == "CA" & type == "National Park") %>% 
+  arrange(park_name, year)
 
-## General exploration of the dataset
-head(np_visit)
-summary(np_visit)
-
-## How many years of data does this dataset have? hint: summary()
-
-## Which parks, and how many parks, are in the dataset?
-parks <- np_visit %>% 
-  select(park_name) %>% 
-  distinct()
-
-## When was each park founded? Which are the oldest vs newest?
-earliest_yr <- np_visit %>% 
-  select(park_name, year) %>% 
-  group_by(park_name) %>% 
-  slice(which.min(year)) %>%
-  arrange(year) %>% 
-  ungroup()
-
-head(earliest_yr)
-tail(earliest_yr)
-
-
-
-head(per_state)
-tail(per_state)
-
-per_rgn <- np_visit %>% 
-  group_by(region) %>% 
-  mutate(n_parks = n()) %>% 
-  select(region, n_parks) %>% 
-  distinct() %>% 
-  arrange(desc(n_parks)) %>% 
-  ungroup()
-
-## Which is the most visited national park? Which year? How many visitors?
-most_visit <- np_visit %>% 
-  arrange(desc(visitors))
-
-
-
-## Which was the most visited national park in the US in 2016?
-most_visit_2016 <- np_visit %>% 
-  filter(year == 2016) %>% 
-  arrange(desc(visitors))
-
-## And the least visited park in 2016
-tail(most_visit_2016)
-
-
+## ggplot:
 ```
+
+
+
+For park X, which year had the most number of visits
+
+These are some questions you can answer as you figure out what to plot
 
 ##
 
@@ -144,30 +172,9 @@ tail(most_visit_2016)
 - Which parks, and how many parks, are in the dataset?
 
 
-## Challenge questions
+## Other questions to explore
 
-
-## Demo plots
-
-
-```{r}
-ggplot(data = earliest_yr, aes(year)) + geom_histogram(binwidth = 1) # single year
-ggplot(data = earliest_yr, aes(year)) + geom_histogram(binwidth = 10) # decade
-
-rgn_visits <- np_visit %>% 
-  group_by(region, year) %>% 
-  mutate(rgn_visit = sum(as.numeric(visitors))/10^4) %>% 
-  ungroup() %>% 
-  filter(rgn_visit > 0)
-
-ggplot(data = rgn_visits, aes(x = year, y = rgn_visit, colour = region)) + 
-  geom_line()
-```
-
-## Your turn!
-
-Here are some questions to get you started: 
 
 1. Can you create a plot that shows the trend in visitation to your favorite national park over time
-2. How many national parks were established in each year in the US between XXXX and XXXX
-3. 
+1. How many national parks were established in each year in the US between XXXX and XXXX?
+
