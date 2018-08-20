@@ -1,0 +1,40 @@
+---
+title: "National Parks Analysis"
+author: "Us!"
+date: "8/22/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## The plan
+
+We'll be mob programming in small teams to learn ggplot2. We'll be exploring data on visits to US National Parks (sourced from the National Park Service at https://irma.nps.gov/Stats/SSRSReports).  
+
+
+
+## Load libraries and data 
+
+The `tidyverse` package has `ggplot2`, as well as `dplyr`, which we will use today.
+
+```{r load, message=FALSE, warning=FALSE}
+library(tidyverse) # install.packages('tidyverse')
+
+np_visit <- read_csv("data/np_visit.csv")
+```
+
+## Demo plot
+
+
+```{r}
+
+```
+
+## Your turn!
+
+Here are some questions to get you started: 
+
+1. Can you create a plot that shows the trend in visitation to your favorite national park over time
+2. How many national parks were established in each year in the US between XXXX and XXXX
