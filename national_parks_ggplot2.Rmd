@@ -79,8 +79,16 @@ Some geoms:
 ## Plotting tasks
 <!---Ellie's section: 
 
-big picture: look over all the examples here and see if the overall breadth is good; should we remove any examples or add any examples? Would it be worth adding some labeling like:
+big picture: look over all the examples here and see if the overall breadth is good; should we remove any examples or add any examples? Would it be worth adding some labeling like Allison did (https://rawgit.com/allisonhorst/data-vis/master/data_vis_np.html)
 
+6. Customization - updating labels and titles
+We customize graphs in ggplot iteratively by adding layers (using the plus sign ‘+’) to a base graphic and/or adding arguments within layers.
+
+Use xlab() and ylab() layers to update x- and y-axis labels, and ggtitle() to add a graph title
+
+graph + xlab(“This is my x-label”) + ylab(“This is my y-label”) + ggtitle(“This is my graph title”)
+
+g +
 xlab("Year") +
 ylab("Annual Visitors") +
 ggtitle("California National Parks Visitation")
