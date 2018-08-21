@@ -1,6 +1,6 @@
 ---
 title: "National Parks Analysis"
-author: "Us!"
+author: "Our team!"
 date: "8/22/2018"
 output: html_document
 ---
@@ -13,13 +13,19 @@ knitr::opts_chunk$set(echo = TRUE)
 
 We'll be mob programming in small teams to learn ggplot2. We'll be exploring data on visits to US National Parks (sourced from the National Park Service at https://irma.nps.gov/Stats/SSRSReports).  
 
+Often, you will need to do a bit of "data wrangling" to isolate, summarize, or combine data before you can make the plot that you'd like. Since data wrangling is not the focus of this Meetup, we have provided wrangling code to get you started.
 
-The presentation is [here]().
+References to help you: 
+
+- [RLadiesSB intro presentation](https://rladies.github.io/meetup-presentations_santabarbara/2018_08_22_mobprogramming/mobprogramming_and_ggplot2.html#1).
+- [data visualization cheatsheet](https://www.rstudio.com/resources/cheatsheets/) 
+- [tidyverse reference](https://ggplot2.tidyverse.org/reference/)
+- help pages for the function (type `?function_name` in the console)
 
 
 ## Load libraries and data 
 
-The `tidyverse` package has `ggplot2`, as well as `dplyr`, which we will use today.
+The `tidyverse` package has `ggplot2`, as well as `dplyr`, which we will use today. Run this code chunk to load the `tidyverse` package (install it if necessary), and read in the data as the `np_visit` object.
 
 ```{r load, message=FALSE, warning=FALSE}
 library(tidyverse) # install.packages('tidyverse')
@@ -29,6 +35,7 @@ np_visit <- read_csv("data/np_visit.csv")
 
 ## Demo code
 
+This is the demo code that we went over in the presentation. 
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
 
@@ -42,7 +49,10 @@ ggplot(data = dino_nm, aes(x = year, y = visitors)) +
 ```
 
 
-## Exploring and wrangling data, pre-plotting // renamed
+## Exploring and wrangling data, pre-plotting // rename this!
+<!---Iwen's section: 
+
+develop a few sentences/paragraph to introduce data wrangling--->
 
 To get a better sense of the dataset and what we may want to plot, we can do some preliminary wrangling/exploration.
 
@@ -67,17 +77,29 @@ Some geoms:
 
 
 ## Plotting tasks
+<!---Ellie's section: 
 
-Resources: 
+big picture: look over all the examples here and see if the overall breadth is good; should we remove any examples or add any examples? Would it be worth adding some labeling like:
 
-- [cheatsheet]()
-- [tidyverse/ggplot]()
+xlab("Year") +
+ylab("Annual Visitors") +
+ggtitle("California National Parks Visitation")
+
+--->
 
 ### Plot California National Parks by color
 
+<!--- Camila's section: 
+
+Read the text for each of these plotting sections and make sure they make sense...maybe they could have more of a consistent style with a sentence or two before the code
+
+(maybe do this after Ellie looks over the big picture)
+
+---> 
+
 Try this as both a `geom_point` and a `geom_line`
 
-Hint: `geom_point(aes(color = park_name))`
+Hint: you can control aesthetics within the geoms: `geom_point(aes(color = park_name))`
 ```{r}
 ## wrangling code:
 np_ca <- np_visit %>% 
@@ -102,7 +124,7 @@ np_ca <- np_visit %>% # introduce pipe operator?
 ## plotting code:
 ```
   
-Bonus: try `geom_jitter`!
+**Bonus**: try `geom_jitter`! What does it help you see that boxplot doesn't?
 
 ### Plot visitor counts from 2016 for all of the National Parks and Monuments
 
@@ -114,19 +136,13 @@ visit_16 <- np_visit %>%
            type == "National Monument")
 ```
 
-#### Bonus
+**Bonus**: Now color them by region: (hint: `fill = region`)  
 
-Now color them by region: 
-
-try: `fill = region`
-
-And control whether they are stacked (default) or not:
-
-`position = "dodge"`
+**Bonus 2**: Control whether they are stacked (default) or not: (hint: `position = "dodge"`)
 
 ### How many parks in each region?
 
-Add text: The "region" varible defines the US by region. Use a bargraph to show how many parks are in each region. 
+Add text: The "region" variable defines the US by region. Use a bargraph to show how many parks are in each region. 
 
 Hint: `geom_bar`
 
@@ -160,21 +176,8 @@ np_ca <- np_visit %>% # introduce pipe operator?
 ```
 
 
+## Other plots to explore
 
-For park X, which year had the most number of visits
-
-These are some questions you can answer as you figure out what to plot
-
-##
-
-- How many years of data does this dataset have? hint: summary()
-
-- Which parks, and how many parks, are in the dataset?
-
-
-## Other questions to explore
-
-
-1. Can you create a plot that shows the trend in visitation to your favorite national park over time
-1. How many national parks were established in each year in the US between XXXX and XXXX?
+1. Create a plot that shows the trend in visitation to your favorite national park over time
+1. How many national parks were established in each year in the US between XXXX and XXXX? How would you visualize this?
 
