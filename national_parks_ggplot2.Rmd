@@ -49,31 +49,24 @@ ggplot(data = dino_nm, aes(x = year, y = visitors)) +
 ```
 
 
-## Exploring and wrangling data, pre-plotting // rename this!
-<!---Iwen's section: 
+## Explore the data
 
-develop a few sentences/paragraph to introduce data wrangling--->
+When you first get your hands on a dataset, it's always good to quickly explore the contents. This will give you a better of idea of what you can plot and what visuals might be interesting. Preliminary exploration may involve looking at the first few rows of the data table, identifying the type of data collected, or checking out max and min values. 
 
-To get a better sense of the dataset and what we may want to plot, we can do some preliminary wrangling/exploration.
+Here are some common functions used for initial exploration: 
 
-Here are some common functions: 
-
-- head
-- tail
-- summary()
 - View()
+- head()
+- tail()
+- summary()
 
-Helpful functions from `dplyr`
+Raw data is rarely prepared in a format that is ready-to-go for plotting. We often need to 'wrangle' (or rearrange and tidy) the rows and columns in a way that makes sense for `ggplot` or any other analyses for that matter. 
 
-Also part of the `tidyverse`
+Helpful functions from `dplyr` (also part of the `tidyverse`) that assist with wrangling:
 
-- filter
-- select
+- filter()
+- select()
 - %>%
-
-
-Some geoms: 
--
 
 
 ## Plotting tasks
