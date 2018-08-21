@@ -37,7 +37,7 @@ To get a better sense of the dataset and what we may want to plot, we can do som
 head(np_visit)
 summary(np_visit)
 
-## How many years of data  does this dataset have? hint: summary()
+## How many years of data does this dataset have? hint: summary()
 
 ## Which parks, and how many parks, are in the dataset?
 parks <- np_visit %>% 
