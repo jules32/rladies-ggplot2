@@ -51,7 +51,7 @@ ggplot(data = dino_nm, aes(x = year, y = visitors)) +
 
 ## Explore the data
 
-When you first get your hands on a dataset, it's always good to quickly explore the contents. This will give you a better of idea of what you can plot and what visuals might be interesting. Preliminary exploration may involve looking at the first few rows of the data table, identifying the type of data collected, or checking out max and min values. 
+When you first get your hands on a dataset, it's always good to quickly explore the contents. This will give you a better idea of what you can plot and what visuals might be interesting. Preliminary exploration may involve looking at the first few rows of the data table, identifying the type of data collected, or checking out max and min values. 
 
 Here are some common functions used for initial exploration: 
 
@@ -98,16 +98,20 @@ Read the text for each of these plotting sections and make sure they make sense.
 
 ---> 
 
+
 Try this as both a `geom_point` and a `geom_line`
 
 Hint: you can control aesthetics within the geoms: `geom_point(aes(color = park_name))`
+
+
 ```{r}
 ## wrangling code:
 np_ca <- np_visit %>% 
   filter(state == "CA" & type == "National Park") %>% 
   arrange(park_name, year)
 
-## ggplot code:
+## plotting code:
+
 ```
 
 
@@ -116,25 +120,30 @@ np_ca <- np_visit %>%
 Keep in mind that the type of graph you’re trying to create needs to be compatible with the data you’re telling it to use.
 
 Hint: `geom_boxplot`  
+
 ```{r}
 ## wrangling code:
-np_ca <- np_visit %>% # introduce pipe operator?
+np_ca <- np_visit %>% # introduce pipe operator!
   filter(state == "CA" & type == "National Park") %>% 
   arrange(park_name, year)
 
 ## plotting code:
+
 ```
   
 **Bonus**: try `geom_jitter`! What does it help you see that boxplot doesn't?
 
-### Plot visitor counts from 2016 for all of the National Parks and Monuments
+### Plot visitor counts from 2016 for all of the National Parks and Monuments 
 
 Hint: `geom_bar`
 ```{r}
+## wrangling code:
 visit_16 <- np_visit %>% 
   filter(year == 2016) %>% 
   filter(type == "National Park" | 
            type == "National Monument")
+## plotting code:
+
 ```
 
 **Bonus**: Now color them by region: (hint: `fill = region`)  
@@ -173,7 +182,7 @@ np_ca <- np_visit %>% # introduce pipe operator?
   filter(state == "CA" & type == "National Park") %>% 
   arrange(park_name, year)
 
-## ggplot:
+## plotting code:
 ```
 
 
