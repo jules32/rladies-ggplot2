@@ -24,6 +24,7 @@ References to help you:
 - [RLadiesSB intro presentation](https://rladies.github.io/meetup-presentations_santabarbara/2018_08_22_mobprogramming/mobprogramming_and_ggplot2.html#1)
 - [data visualization cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) 
 - [ggplot reference](https://ggplot2.tidyverse.org/reference/)
+- [data visualisation](http://r4ds.had.co.nz/data-visualisation.html) and [graphics for communication](http://r4ds.had.co.nz/graphics-for-communication.html) chapters in [R for data science](http://r4ds.had.co.nz/)
 - help pages for the function (type `?function_name` in the console)
 
 *Created by Julie Lowndes, Ellie Campbell, Iwen Su, and Camila Vargas*
