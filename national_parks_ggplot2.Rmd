@@ -79,21 +79,13 @@ Helpful functions from [`dplyr`](https://dplyr.tidyverse.org/) (also part of the
 ***
 
 ## Plotting tasks
+In the next section you are going to find different questions to be answer by visualizing the data in a plot. The code for wrangling the data is provided at the beginning of each code chunk. Your task is to write the code and create a plot that allows you answer each question. 
 
 <br>
 
-### Plot California National Parks by color over time
+### How has visit to California National Parks change over time?
 
-<!--- Camila's section: 
-
-Read the text for each of these plotting sections and make sure they make sense...maybe they could have more of a consistent style with a sentence or two before the code
-
-(maybe do this after Ellie looks over the big picture)
-
----> 
-
-
-Try this as both a `geom_point` and a `geom_line`
+Plot California National Parks by color over time. Try this as both a `geom_point` and a `geom_line`
 
 Hint: you can control aesthetics within the geoms: `geom_point(aes(color = park_name))`
 
@@ -105,9 +97,9 @@ np_ca <- np_visit %>%
 ```
 
 
-### Visualize the average visitation to National Parks in California
+### What is the median visitations to National Parks in California? What are the max and min values?
 
-Keep in mind that the type of graph you’re trying to create needs to be compatible with the data you’re telling it to use.
+Visualize visitation to National Parks in California, clearly showing the median and the max and min values. Keep in mind that the type of graph you’re trying to create needs to be compatible with the data you’re telling it to use.
 
 Hint: `geom_boxplot`  
 
@@ -120,7 +112,9 @@ np_ca <- np_visit %>%
   
 **Bonus**: try `geom_jitter`! What does it help you see that boxplot doesn't?
 
-### Plot visitor counts from 2016 for all of the National Parks and Monuments 
+### How many people visit a National Park in 2016? How many visited a Monument?
+
+Plot visitor counts from 2016 for National Parks and Monuments. 
 
 Hint: `geom_bar`
 
@@ -136,24 +130,25 @@ visit_16 <- np_visit %>%
 
 **Bonus 2**: Control whether they are stacked (default) or not: (hint: `position = "dodge"`)
 
+
 ### How many parks in each region?
 
-Add text: The "region" variable defines the US by region. Use a bargraph to show how many parks are in each region. 
+The "region" variable divides the US in 8 regions. Use a bargraph to show how many parks are in each region. 
 
 Hint: `geom_bar`
 
 ```{r parks by region}
 ## wrangling code:
-per_state <- np_visit %>% 
-  group_by(state) %>% 
+per_region <- np_visit %>% 
+  group_by(region) %>% 
   mutate(n_parks = n()) %>% 
-  select(state, n_parks) %>% 
+  select(region, n_parks) %>% 
   distinct() %>% 
   arrange(desc(n_parks)) %>% 
   ungroup()
 ```
 
-### Plot all California National Parks
+### How has visits to each National Park in California change over time?
 
 Considering our CA National Parks Visitation, what if we wanted each National Park to exist in its own graphics space? Would we need to create a new graph for each? No - we can use facet_wrap to split up the graph by a variable that we pick (in this example, park_name).
 
@@ -191,6 +186,6 @@ ggplot(data = dino_nm, aes(x = year, y = visitors)) +
   theme_bw()
 ```
 
-Finally, if you still have time, explore the many arguments of [`theme`](https://ggplot2.tidyverse.org/reference/theme.html) which can be used to more tightly control theme elements.
+Finally, if you still have time, explore the many arguments of [`theme`](https://ggplot2.tidyverse.org/reference/theme.html) which can be used to more tightly control theme elements. And try customizing any of the plots created above (eg: change the color skim, add titles and labels, change the position of the key, etc.) 
 
 ***
