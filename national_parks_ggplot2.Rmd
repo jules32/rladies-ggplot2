@@ -13,22 +13,26 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## The plan
 
-We'll be mob programming in small teams to learn ggplot2. We'll be exploring data on visits to US National Parks (sourced from the National Park Service at https://irma.nps.gov/Stats/SSRSReports).  
+We'll be [mob programming](https://github.com/R-Meetup-SB/hackathon-201806/blob/master/mob-programming.Rmd) in small teams to learn ggplot2, rotating who codes on a single computer so that everyone can contribute verbally and get a chance to type. Each team will have mixed skill-levels, and the idea is to learn together. Everyone can learn something new by coding with other people! Please be respectful and supportive first and foremost.  
 
-Often, you will need to do a bit of "data wrangling" to isolate, summarize, or combine data before you can make the plot that you'd like. Since data wrangling is not the focus of this Meetup, we have provided wrangling code to get you started.
+We'll be exploring data on visits to US National Parks (sourced from the [National Park Service](https://irma.nps.gov/Stats/SSRSReports)).  
+
+Often, you will need to do a bit of "data wrangling" to isolate, summarize, or combine data before you can make the plot that you'd like. Since data wrangling is not the focus of this Meetup, we have provided wrangling code to get you started for each plot that your group will make.
 
 References to help you: 
 
-- [RLadiesSB intro presentation](https://rladies.github.io/meetup-presentations_santabarbara/2018_08_22_mobprogramming/mobprogramming_and_ggplot2.html#1).
+- [RLadiesSB intro presentation](https://rladies.github.io/meetup-presentations_santabarbara/2018_08_22_mobprogramming/mobprogramming_and_ggplot2.html#1)
 - [data visualization cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) 
 - [ggplot reference](https://ggplot2.tidyverse.org/reference/)
 - help pages for the function (type `?function_name` in the console)
+
+*Created by Julie Lowndes, Ellie Campbell, Iwen Su, and Camila Vargas*
 
 ***
 
 ## Load libraries and data 
 
-The `tidyverse` package has `ggplot2`, as well as `dplyr`, which we will use today. Run this code chunk to load the `tidyverse` package (install it if necessary), and read in the data as the `np_visit` object.
+The `tidyverse` package has `ggplot2`, as well as `dplyr`, and we will use both today. Run this code chunk to load the `tidyverse` package (install it if necessary), and read in the data as the `np_visit` object.
 
 
 ```{r load tidyverse and data, message=FALSE, warning=FALSE}
@@ -44,10 +48,6 @@ np_visit <- read_csv("data/np_visit.csv")
 This is the demo code that we went over in the presentation. 
 
 ```{r demo plot, warning=FALSE, message=FALSE}
-library(tidyverse)
-
-np_visit <- read_csv("data/np_visit.csv")
-
 dino_nm <- np_visit %>% 
   filter(park_name == "Dinosaur National Monument")
   
@@ -80,15 +80,15 @@ Helpful functions from [`dplyr`](https://dplyr.tidyverse.org/) (also part of the
 
 ## Plotting tasks
 
-In the next section you are going to find different questions to be answer by visualizing the data in a plot. The code for wrangling the data is provided at the beginning of each code chunk. Your task is to write the code and create a plot that allows you answer each question. 
+In the next section you are going to find different questions to be answered by visualizing the data in a plot. The code for wrangling the data is provided at the beginning of each code chunk. Your task is to write code and create plots and have fun with it. Here we provide questions and starter code, but feel free to follow the interests of your group and explore different capabilities of `ggplot2`! 
 
 <br>
 
-### How has visit to California National Parks change over time?
+### How have visits to California National Parks changed over time?
 
-Plot California National Parks by color over time. Try this as both a `geom_point` and a `geom_line`
+Plot California National Parks over time, and distinguish each park by color. Try this as both a `geom_point` and a `geom_line`.
 
-Hint: you can control aesthetics within the geoms: `geom_point(aes(color = park_name))`
+Hint: you can control aesthetics within the geoms: `geom_point(aes(color = park_name))`.
 
 ```{r ca parks by color}
 ## wrangling code:
@@ -100,7 +100,7 @@ np_ca <- np_visit %>%
 
 ### What is the median visitations to National Parks in California? What are the max and min values?
 
-Visualize visitation to National Parks in California, clearly showing the median and the max and min values. Keep in mind that the type of graph you’re trying to create needs to be compatible with the data you’re telling it to use.
+Visualize visitation to National Parks in California, clearly showing the median and the max and min values. Keep in mind that the type of visualization you create must be compatible with the data you use.
 
 Hint: `geom_boxplot`  
 
@@ -109,11 +109,15 @@ Hint: `geom_boxplot`
 np_ca <- np_visit %>%
   filter(state == "CA" & type == "National Park") %>% 
   arrange(park_name, year)
+
+## plotting code:
+
 ```
   
-**Bonus**: try `geom_jitter`! What does it help you see that boxplot doesn't?
+**Bonus**: try `geom_jitter`! Does it help you see anything differently than boxplot did?
 
-### How many people visit a National Park in 2016? How many visited a Monument?
+
+### How many people visit a National Park in 2016? How many visited a National Monument?
 
 Plot visitor counts from 2016 for National Parks and Monuments. 
 
@@ -123,8 +127,10 @@ Hint: `geom_bar`
 ## wrangling code:
 visit_16 <- np_visit %>% 
   filter(year == 2016) %>% 
-  filter(type == "National Park" | 
-           type == "National Monument")
+  filter(type == "National Park" | type == "National Monument")
+
+## plotting code:
+
 ```
 
 **Bonus**: Now color them by region: (hint: `fill = region`)  
@@ -132,7 +138,7 @@ visit_16 <- np_visit %>%
 **Bonus 2**: Control whether they are stacked (default) or not: (hint: `position = "dodge"`)
 
 
-### How many parks in each region?
+### How many parks are in each region?
 
 The "region" variable divides the US in 8 regions. Use a bargraph to show how many parks are in each region. 
 
@@ -147,11 +153,14 @@ per_region <- np_visit %>%
   distinct() %>% 
   arrange(desc(n_parks)) %>% 
   ungroup()
+
+## plotting code:
+
 ```
 
-### How has visits to each National Park in California change over time?
+### Compare change over time for all National Parks in California
 
-Considering our CA National Parks Visitation, what if we wanted each National Park to exist in its own graphics space? Would we need to create a new graph for each? No - we can use facet_wrap to split up the graph by a variable that we pick (in this example, park_name).
+If we want to compare visitation plots of all National Parks in California, hopefully there is a better way than creating separate figures for each one. One of the best approaches to coding is expecting that someone before you has wanted to do the same thing, so you don't need to reinvent the wheel. In `ggplot2`, can use `facet_wrap` to create separate plots by a variable that we select (in this example, park_name).
 
 Hint: `facet_wrap(~park_name)`
 
@@ -160,11 +169,16 @@ Hint: `facet_wrap(~park_name)`
 np_ca <- np_visit %>%
   filter(state == "CA" & type == "National Park") %>% 
   arrange(park_name, year)
+
+## plotting code:
+
 ```
+
+**Bonus**: What does `facet_grid` do?
 
 ***
 
-## Extras: labels, titles, and themes
+## Styling: labels, titles, and themes
 
 `ggplot() + geom()` creates the base graphic. To customize graphs, you can add (using the plus sign) more elements such as:
 
@@ -172,7 +186,7 @@ np_ca <- np_visit %>%
 - ylab()
 - ggtitle()
 
-One way to make major changes to the overall aesthetic of your graph is with themes. Themes to try:
+One way to make major changes to the overall aesthetic of your graph is with themes (that you also add using `+`). Themes to try:
 
 - theme_bw()
 - theme_minimal()
@@ -187,6 +201,6 @@ ggplot(data = dino_nm, aes(x = year, y = visitors)) +
   theme_bw()
 ```
 
-Finally, if you still have time, explore the many arguments of [`theme`](https://ggplot2.tidyverse.org/reference/theme.html) which can be used to more tightly control theme elements. And try customizing any of the plots created above (eg: change the color skim, add titles and labels, change the position of the key, etc.) 
+Finally, if you still have time, explore the many arguments of [`theme`](https://ggplot2.tidyverse.org/reference/theme.html) which can be used to more tightly control theme elements. And try customizing any of the plots created above (eg: change the color scheme, add titles and labels, change the position of the key, etc.) 
 
 ***
