@@ -79,6 +79,7 @@ Helpful functions from [`dplyr`](https://dplyr.tidyverse.org/) (also part of the
 ***
 
 ## Plotting tasks
+
 In the next section you are going to find different questions to be answer by visualizing the data in a plot. The code for wrangling the data is provided at the beginning of each code chunk. Your task is to write the code and create a plot that allows you answer each question. 
 
 <br>
