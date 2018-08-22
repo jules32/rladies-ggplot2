@@ -9,6 +9,8 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+***
+
 ## The plan
 
 We'll be mob programming in small teams to learn ggplot2. We'll be exploring data on visits to US National Parks (sourced from the National Park Service at https://irma.nps.gov/Stats/SSRSReports).  
@@ -18,25 +20,30 @@ Often, you will need to do a bit of "data wrangling" to isolate, summarize, or c
 References to help you: 
 
 - [RLadiesSB intro presentation](https://rladies.github.io/meetup-presentations_santabarbara/2018_08_22_mobprogramming/mobprogramming_and_ggplot2.html#1).
-- [data visualization cheatsheet](https://www.rstudio.com/resources/cheatsheets/) 
-- [tidyverse reference](https://ggplot2.tidyverse.org/reference/)
+- [data visualization cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) 
+- [ggplot reference](https://ggplot2.tidyverse.org/reference/)
 - help pages for the function (type `?function_name` in the console)
 
+***
 
 ## Load libraries and data 
 
 The `tidyverse` package has `ggplot2`, as well as `dplyr`, which we will use today. Run this code chunk to load the `tidyverse` package (install it if necessary), and read in the data as the `np_visit` object.
 
-```{r load, message=FALSE, warning=FALSE}
+
+```{r load tidyverse and data, message=FALSE, warning=FALSE}
 library(tidyverse) # install.packages('tidyverse')
 
 np_visit <- read_csv("data/np_visit.csv")
 ```
 
+***
+
 ## Demo code
 
 This is the demo code that we went over in the presentation. 
-```{r, warning=FALSE, message=FALSE}
+
+```{r demo plot, warning=FALSE, message=FALSE}
 library(tidyverse)
 
 np_visit <- read_csv("data/np_visit.csv")
@@ -48,10 +55,11 @@ ggplot(data = dino_nm, aes(x = year, y = visitors)) +
   geom_point()
 ```
 
+***
 
 ## Explore the data
 
-When you first get your hands on a dataset, it's always good to quickly explore the contents. This will give you a better of idea of what you can plot and what visuals might be interesting. Preliminary exploration may involve looking at the first few rows of the data table, identifying the type of data collected, or checking out max and min values. 
+When you first get your hands on a dataset, it's always good to quickly explore the contents. This will give you a better of idea of what you can plot and what visuals might be interesting. Preliminary exploration may involve looking at the first few rows of the data table, identifying the type of data collected, or checking out max and min values. Individual columns can be pulled out using the notation: `dataframe$column_name`.  
 
 Here are some common functions used for initial exploration: 
 
@@ -62,33 +70,19 @@ Here are some common functions used for initial exploration:
 
 Raw data is rarely prepared in a format that is ready-to-go for plotting. We often need to 'wrangle' (or rearrange and tidy) the rows and columns in a way that makes sense for `ggplot` or any other analyses for that matter. 
 
-Helpful functions from `dplyr` (also part of the `tidyverse`) that assist with wrangling:
+Helpful functions from [`dplyr`](https://dplyr.tidyverse.org/) (also part of the `tidyverse`) that assist with wrangling:
 
 - filter()
 - select()
 - %>%
 
+***
 
 ## Plotting tasks
-<!---Ellie's section: 
 
-big picture: look over all the examples here and see if the overall breadth is good; should we remove any examples or add any examples? Would it be worth adding some labeling like Allison did (https://rawgit.com/allisonhorst/data-vis/master/data_vis_np.html)
+<br>
 
-6. Customization - updating labels and titles
-We customize graphs in ggplot iteratively by adding layers (using the plus sign ‘+’) to a base graphic and/or adding arguments within layers.
-
-Use xlab() and ylab() layers to update x- and y-axis labels, and ggtitle() to add a graph title
-
-graph + xlab(“This is my x-label”) + ylab(“This is my y-label”) + ggtitle(“This is my graph title”)
-
-g +
-xlab("Year") +
-ylab("Annual Visitors") +
-ggtitle("California National Parks Visitation")
-
---->
-
-### Plot California National Parks by color
+### Plot California National Parks by color over time
 
 <!--- Camila's section: 
 
@@ -101,13 +95,11 @@ Read the text for each of these plotting sections and make sure they make sense.
 Try this as both a `geom_point` and a `geom_line`
 
 Hint: you can control aesthetics within the geoms: `geom_point(aes(color = park_name))`
-```{r}
+```{r ca parks by color}
 ## wrangling code:
 np_ca <- np_visit %>% 
   filter(state == "CA" & type == "National Park") %>% 
   arrange(park_name, year)
-
-## ggplot code:
 ```
 
 
@@ -116,13 +108,12 @@ np_ca <- np_visit %>%
 Keep in mind that the type of graph you’re trying to create needs to be compatible with the data you’re telling it to use.
 
 Hint: `geom_boxplot`  
-```{r}
+
+```{r average visitation to ca parks}
 ## wrangling code:
-np_ca <- np_visit %>% # introduce pipe operator?
+np_ca <- np_visit %>%
   filter(state == "CA" & type == "National Park") %>% 
   arrange(park_name, year)
-
-## plotting code:
 ```
   
 **Bonus**: try `geom_jitter`! What does it help you see that boxplot doesn't?
@@ -130,7 +121,9 @@ np_ca <- np_visit %>% # introduce pipe operator?
 ### Plot visitor counts from 2016 for all of the National Parks and Monuments
 
 Hint: `geom_bar`
-```{r}
+
+```{r counts from 2016}
+## wrangling code:
 visit_16 <- np_visit %>% 
   filter(year == 2016) %>% 
   filter(type == "National Park" | 
@@ -147,7 +140,7 @@ Add text: The "region" variable defines the US by region. Use a bargraph to show
 
 Hint: `geom_bar`
 
-```{r}
+```{r parks by region}
 ## wrangling code:
 per_state <- np_visit %>% 
   group_by(state) %>% 
@@ -156,29 +149,46 @@ per_state <- np_visit %>%
   distinct() %>% 
   arrange(desc(n_parks)) %>% 
   ungroup()
-
-## plotting code:
-
 ```
 
 ### Plot all California National Parks
 
-Considering our CA National Parks Visitation, what if we wanted each National Park to exist in its own graphics space? Would we need to create a new graph for each? No - we can use facet_wrap to split up the graph by a variable that we pick (here, park_name).
+Considering our CA National Parks Visitation, what if we wanted each National Park to exist in its own graphics space? Would we need to create a new graph for each? No - we can use facet_wrap to split up the graph by a variable that we pick (in this example, park_name).
 
 Hint: `facet_wrap(~park_name)`
 
-```{r}
-## wrangling:
-np_ca <- np_visit %>% # introduce pipe operator?
+```{r multiple graphs with facet_wrap}
+## wrangling code:
+np_ca <- np_visit %>%
   filter(state == "CA" & type == "National Park") %>% 
   arrange(park_name, year)
-
-## ggplot:
 ```
 
+***
 
-## Other plots to explore
+## Extras: labels, titles, and themes
 
-1. Create a plot that shows the trend in visitation to your favorite national park over time
-1. How many national parks were established in each year in the US between XXXX and XXXX? How would you visualize this?
+`ggplot() + geom()` creates the base graphic. To customize graphs, you can add (using the plus sign) more elements such as:
 
+- xlab()
+- ylab()
+- ggtitle()
+
+One way to make major changes to the overall aesthetic of your graph is with themes. Themes to try:
+
+- theme_bw()
+- theme_minimal()
+- theme_classic()
+
+```{r customize demo plot}
+ggplot(data = dino_nm, aes(x = year, y = visitors)) +
+  geom_point() +
+  xlab("Year") +
+  ylab("Annual Visitors") +
+  ggtitle("California National Parks Visitation") +
+  theme_bw()
+```
+
+Finally, if you still have time, explore the many arguments of [`theme`](https://ggplot2.tidyverse.org/reference/theme.html) which can be used to more tightly control theme elements.
+
+***
